@@ -2,8 +2,9 @@ package com.example.be_api_web.service.Impl;
 
 import com.example.be_api_web.controller.message.Message;
 import com.example.be_api_web.entity.product.Material;
-import com.example.be_api_web.repository.product.MaterialRepository;
-import com.example.be_api_web.service.MaterialService;
+import com.example.be_api_web.entity.product.Size;
+import com.example.be_api_web.repository.product.SizeRepository;
+import com.example.be_api_web.service.SizeSerice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,42 +16,42 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MaterialServiceImpl implements MaterialService {
+public class SizeServiceImpl implements SizeSerice {
     @Autowired
-    private MaterialRepository materialRepository;
+    private SizeRepository sizeRepository;
 
     private boolean isValid(String str) {
         return str.matches("^[a-zA-Z\\d\\s\\S]+$");
     }
 
     @Override
-    public List<Material> findAll() {
-        return materialRepository.findAll();
+    public List<Size> findAll() {
+        return sizeRepository.findAll();
     }
 
     @Override
-    public ResponseEntity<Material> editMaterial(Material updateMaterial) {
-        Material optional=materialRepository.findByName(updateMaterial.getName());
+    public ResponseEntity<Size> editSize(Size updateSize) {
+        Size optional=sizeRepository.findByName(updateSize.getNameSize());
         String errorMessage;
         Message errorResponse;
 
         if (optional !=null){
-            errorMessage = " Trùng Chất Liệu";
+            errorMessage = " Trùng loại Size";
             errorResponse = new Message(errorMessage, TrayIcon.MessageType.ERROR);
             return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        if(updateMaterial.getName()==null || !isValid(updateMaterial.getName())){
-            errorMessage="Chất Liệu Không Hợp Lệ";
+        if(updateSize.getNameSize()==null || !isValid(updateSize.getNameSize())){
+            errorMessage="Size Không Hợp Lệ";
             errorResponse =new Message(errorMessage, TrayIcon.MessageType.ERROR);
             return new ResponseEntity(errorResponse,HttpStatus.BAD_REQUEST);
         }
         try {
-            Optional<Material>optionalMaterial=materialRepository.findById(updateMaterial.getId());
-            if(optionalMaterial.isPresent()){
-                Material material=optionalMaterial.get();
-                material.setName(updateMaterial.getName());
-                materialRepository.save(material);
-                return ResponseEntity.ok().body(material);
+            Optional<Size> optionalSize=sizeRepository.findById(updateSize.getId());
+            if(optionalSize.isPresent()){
+                Size size=optionalSize.get();
+                size.setNameSize(updateSize.getNameSize());
+                sizeRepository.save(size);
+                return ResponseEntity.ok().body(size);
             }
             else {
                 return ResponseEntity.notFound().build();
@@ -62,40 +63,40 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public ResponseEntity<?> saveMaterial(Material saveMaterial) {
-        Material optional=materialRepository.findByName(saveMaterial.getName());
+    public ResponseEntity<?> saveSize(Size saveSize) {
+        Size optional=sizeRepository.findByName(saveSize.getNameSize());
         String errorMessages;
         Message errorResponse;
 
         if(optional !=null){
-            errorMessages="Trùng Chất Liệu";
+            errorMessages="Trùng Size";
             errorResponse=new Message(errorMessages, TrayIcon.MessageType.ERROR);
             return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        if(saveMaterial.getName()==null || !isValid(saveMaterial.getName())){
-            errorMessages="Chất Liệu Không Hợp Lệ";
+        if(saveSize.getNameSize()==null || !isValid(saveSize.getNameSize())){
+            errorMessages="Material Không Hợp Lệ";
             errorResponse=new Message(errorMessages, TrayIcon.MessageType.ERROR);
             return new ResponseEntity(errorResponse,HttpStatus.BAD_REQUEST);
         }
         try {
-            Material material=new Material();
-            material.setName(saveMaterial.getName());
-            materialRepository.save(material);
-            return ResponseEntity.ok().body(materialRepository.findAll());
+            Size size=new Size();
+            size.setNameSize(saveSize.getNameSize());
+            sizeRepository.save(size);
+            return ResponseEntity.ok().body(sizeRepository.findAll());
         }catch (Exception e){
             return new ResponseEntity(new Message(e.getMessage(),TrayIcon.MessageType.ERROR),HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
-    public ResponseEntity<List<Material>> deleteMaterial(Long id) {
+    public ResponseEntity<List<Size>> deleteSize(Long id) {
         try {
-            Optional<Material> optionalMaterial=materialRepository.findById(id);
-            if(optionalMaterial.isPresent()){
-                Material material=optionalMaterial.get();
-                material.setDeleted(true);
-                materialRepository.save(material);
-                return ResponseEntity.ok().body(materialRepository.findAll());
+            Optional<Size> optionalSize=sizeRepository.findById(id);
+            if(optionalSize.isPresent()){
+                Size size=optionalSize.get();
+                size.setDeleted(true);
+                sizeRepository.save(size);
+                return ResponseEntity.ok().body(sizeRepository.findAll());
             }
             else {
                 return ResponseEntity.notFound().build();
@@ -107,7 +108,7 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public List<Material> searchMaterial(Long id) {
-        return (List<Material>) materialRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Material Không tồn Tại"));
+    public List<Size> searchSize(Long id) {
+        return (List<Size>) sizeRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Soze Không tồn Tại"));
     }
 }
