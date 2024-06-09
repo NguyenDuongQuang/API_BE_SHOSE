@@ -12,5 +12,6 @@ public interface SizeRepository extends JpaRepository<Size,Long> {
 
     Size findById(long id);
 
-    Size findByName(String name);
+    Size findByNameSize(String nameSize);
+
 }

@@ -1,7 +1,8 @@
 package com.example.be_api_web.service.Impl;
 
 import com.example.be_api_web.controller.message.Message;
-import com.example.be_api_web.entity.product.Material;
+
+
 import com.example.be_api_web.entity.product.Size;
 import com.example.be_api_web.repository.product.SizeRepository;
 import com.example.be_api_web.service.SizeSerice;
@@ -31,7 +32,7 @@ public class SizeServiceImpl implements SizeSerice {
 
     @Override
     public ResponseEntity<Size> editSize(Size updateSize) {
-        Size optional=sizeRepository.findByName(updateSize.getNameSize());
+        Size optional=sizeRepository.findByNameSize(updateSize.getNameSize());
         String errorMessage;
         Message errorResponse;
 
@@ -64,7 +65,7 @@ public class SizeServiceImpl implements SizeSerice {
 
     @Override
     public ResponseEntity<?> saveSize(Size saveSize) {
-        Size optional=sizeRepository.findByName(saveSize.getNameSize());
+        Size optional=sizeRepository.findByNameSize(saveSize.getNameSize());
         String errorMessages;
         Message errorResponse;
 

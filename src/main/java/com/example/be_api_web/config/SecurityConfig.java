@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
 
-                .antMatchers("/login","/material/get-all","/material/create","/material/update/{id}","/material/search{id}","/material/delete/{id}"
+                .antMatchers("/login","/material/get-all","/material/create","/material/update/{id}","/material/search{id}","/material/delete/{id}","/size/get-all"
                 ).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
