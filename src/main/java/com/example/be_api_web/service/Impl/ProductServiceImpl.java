@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
         String errorMessages;
         Message erroResponse;
 
-        if(optional !=null){
+        if(optional != null){
             errorMessages="Trùng tên Sản Phẩm";
             erroResponse=new Message(errorMessages,TrayIcon.MessageType.ERROR);
             Map<String,String>mapResponse=new HashMap<>();
